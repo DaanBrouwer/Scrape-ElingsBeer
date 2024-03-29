@@ -9,7 +9,7 @@ using ReadHTML.Interfaces;
 // Als biernaam al in lijst staat voeg kolom toe met ook beschikbaar in
 // dubbel check brouwerij untappd of deze echt goed is vergelijk met bekende brouwerij van elings
 // if rating > 3.5 ofzo check checkins
-
+// fix error edgedriver
 var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
 {
     var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build(); ;

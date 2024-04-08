@@ -44,6 +44,7 @@ You'll need to set up your environment, install necessary libraries, and create 
 ## Project Structure
 
 - `Program.cs`: Main entry point of the project.
+- `ProcessBeers.cs`: Main process class.
 - `ProcessElings.cs`: Class responsible for retrieving the beers of each page from Elings Craft Beer.
 - `ProcessUntappd.cs`: Class responsible for retrieving the untappd data of the beers.
 - `ExportCSV.cs`: Class responsible for exporting beers to a CSV File.

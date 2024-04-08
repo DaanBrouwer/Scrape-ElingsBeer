@@ -34,8 +34,6 @@ builder.Services
     .AddSingleton<IExportCSV, ExportCSV>()
     .AddSingleton<IProcessBeers, ProcessBeers>();
 
-var host = builder.Build();
-var app = host.Services.GetRequiredService<IProcessBeers>();
 app.ProcessAllBeer();
 
 

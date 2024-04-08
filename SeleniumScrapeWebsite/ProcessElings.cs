@@ -33,14 +33,14 @@ namespace ReadHTML
             int totalPages = Convert.ToInt32(totalPagesText.Text);
 
             List<Beer> bieren = new List<Beer>();
-            for (int i = 1; i <= totalPages; i++)
+            for (int i = 1; i <= 1; i++)
             {
                 _driver.Navigate().GoToUrl($"https://elingscraftbeer.shop/collections/alle-bieren?sort_by=created-descending&page={i}");
                 bieren.AddRange(GetAllBeersFromPage());
                 
                 Console.WriteLine($"Pagina {i} verwerkt");
             }
-            _driver.Dispose();
+            _driver.Quit();
             return bieren;
         }
 

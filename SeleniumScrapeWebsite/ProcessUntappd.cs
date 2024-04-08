@@ -5,13 +5,14 @@ using ReadHTML.Interfaces;
 
 namespace ReadHTML
 {
-    public class ProcessUntappd(IWebDriver webDriver) : IProcessUntappd
+    public class ProcessUntappd : IProcessUntappd
     {
         public void GetUntappedRatingAsync(List<Beer> bieren)
         {
             IEnumerable<Beer[]> chunks = bieren.Chunk(bieren.Count / 2);
             Parallel.ForEach(chunks, beers =>
             {
+                IWebDriver webDriver = new EdgeDriver();
                 bool cookieClicked = false;
                 foreach (var beer in beers)
                 {
@@ -23,7 +24,6 @@ namespace ReadHTML
                     {
                         while (retryCount > 0 && !flag)
                         {
-
                             try
                             {
                                 var cookieButton = webDriver.FindElement(By.XPath("/html/body/div[5]/div[2]/div[1]/div[2]/div[2]/button[1]"));

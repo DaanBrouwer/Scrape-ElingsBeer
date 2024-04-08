@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Edge;
 using ReadHTML;
 using ReadHTML.Interfaces;
 
@@ -13,8 +14,7 @@ var builder = Host.CreateApplicationBuilder();
 
 builder.Services
     .Configure<Appsettings>(builder.Configuration.GetSection(nameof(Appsettings)))
-    .AddSingleton<IWebDriver, WebDriver>()
-    .AddSingleton<IWebElement, WebElement>()
+    .AddSingleton<IWebDriver, EdgeDriver>()
     .AddSingleton<IProcessElings, ProcessElings>()
     .AddSingleton<IProcessUntappd, ProcessUntappd>()
     .AddSingleton<IExportCSV, ExportCSV>()

@@ -5,7 +5,7 @@ using ReadHTML.Interfaces;
 
 namespace ReadHTML
 {
-    public class ProcessUntappd : IProcessUntappd
+    public class ProcessUntappd(IWebDriver webDriver) : IProcessUntappd
     {
         public void GetUntappedRatingAsync(List<Beer> bieren)
         {
@@ -13,11 +13,9 @@ namespace ReadHTML
             Parallel.ForEach(chunks, beers =>
             {
                 bool cookieClicked = false;
-                IWebDriver webDriver = new EdgeDriver();
                 foreach (var beer in beers)
                 {
                     webDriver.Navigate().GoToUrl($"https://untappd.com/search?q={beer.Brewery}+{beer.Name}");
-
 
                     int retryCount = 5;
                     bool flag = false;
@@ -60,11 +58,8 @@ namespace ReadHTML
                         beer.UntappedRating = 9;
                         Console.WriteLine($"{beer.Name} rating NIET verwerkt");
                     }
-
-
                 };
                 webDriver.Close();
-
             });
 
         }

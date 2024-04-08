@@ -2,6 +2,6 @@
 {
     public interface IExportCSV
     {
-        void ConvertToCsv<T>(IEnumerable<T> data, string filePath);
+        void ConvertToCsv<T>(IEnumerable<T> data);
     }
 }

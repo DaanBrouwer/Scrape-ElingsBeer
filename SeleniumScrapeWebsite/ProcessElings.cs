@@ -8,45 +8,46 @@ namespace ReadHTML
     public class ProcessElings : IProcessElings
     {
         private readonly Appsettings _options;
+        private readonly IWebDriver _driver;
 
-        public ProcessElings(IOptions<Appsettings> options)
+        public ProcessElings(IOptions<Appsettings> options, IWebDriver webDriver)
         {
             _options = options.Value;
+            _driver = webDriver;
         }
 
         public List<Beer> GetElingsBeers()
         {
-            IWebDriver driver = new EdgeDriver();
-            driver.Navigate().GoToUrl($"https://elingscraftbeer.shop/account/login");
+            _driver.Navigate().GoToUrl($"https://elingscraftbeer.shop/account/login");
 
-            var emailinput = driver.FindElement(By.XPath("//*[@id=\"customer[email]\"]"));
-            var passwordInput = driver.FindElement(By.XPath("//*[@id=\"customer[password]\"]"));
-            var submitButton = driver.FindElement(By.XPath("//*[@id=\"customer_login\"]/button"));
+            var emailinput = _driver.FindElement(By.XPath("//*[@id=\"customer[email]\"]"));
+            var passwordInput = _driver.FindElement(By.XPath("//*[@id=\"customer[password]\"]"));
+            var submitButton = _driver.FindElement(By.XPath("//*[@id=\"customer_login\"]/button"));
 
             emailinput.SendKeys(_options.UserName);
             passwordInput.SendKeys(_options.Password);
             submitButton.Click();
-            driver.Navigate().GoToUrl($"https://elingscraftbeer.shop/collections/alle-bieren?sort_by=created-descending");
+            _driver.Navigate().GoToUrl($"https://elingscraftbeer.shop/collections/alle-bieren?sort_by=created-descending");
 
-            var totalPagesText = driver.FindElement(By.XPath("//*[@id=\"shopify-section-template--16713055338752__main\"]/section/div[1]/div[2]/div[2]/div/div[2]/div/div[3]/div/div/a[3]"));
+            var totalPagesText = _driver.FindElement(By.XPath("//*[@id=\"shopify-section-template--16713055338752__main\"]/section/div[1]/div[2]/div[2]/div/div[2]/div/div[3]/div/div/a[3]"));
             int totalPages = Convert.ToInt32(totalPagesText.Text);
 
             List<Beer> bieren = new List<Beer>();
             for (int i = 1; i <= totalPages; i++)
             {
-                driver.Navigate().GoToUrl($"https://elingscraftbeer.shop/collections/alle-bieren?sort_by=created-descending&page={i}");
-                bieren.AddRange(GetAllBeersFromPage(driver));
+                _driver.Navigate().GoToUrl($"https://elingscraftbeer.shop/collections/alle-bieren?sort_by=created-descending&page={i}");
+                bieren.AddRange(GetAllBeersFromPage());
                 
                 Console.WriteLine($"Pagina {i} verwerkt");
             }
-            driver.Dispose();
+            _driver.Dispose();
             return bieren;
         }
 
-        private List<Beer> GetAllBeersFromPage(IWebDriver driver)
+        private List<Beer> GetAllBeersFromPage()
         {
 
-            var beers = driver.FindElements(By.XPath("//*[@id=\"shopify-section-template--16713055338752__main\"]/section/div[1]/div[2]/div[2]/div/div[2]/div/div[2]/div/div/div"));
+            var beers = _driver.FindElements(By.XPath("//*[@id=\"shopify-section-template--16713055338752__main\"]/section/div[1]/div[2]/div[2]/div/div[2]/div/div[2]/div/div/div"));
             var AllBeersFromPage = new List<Beer>();
             foreach (var beer in beers)
             {

@@ -10,6 +10,7 @@ using ReadHTML.Interfaces;
 // dubbel check brouwerij untappd of deze echt goed is vergelijk met bekende brouwerij van elings
 // if rating > 3.5 ofzo check checkins
 // fix error edgedriver
+// ILogger implementation
 var builder = Host.CreateApplicationBuilder();
 
 builder.Services

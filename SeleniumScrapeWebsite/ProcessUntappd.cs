@@ -31,12 +31,12 @@ namespace ReadHTML
                                 cookieClicked = true;
                                 flag = true;
                             }
-                            catch (NoSuchElementException e)
+                            catch (NoSuchElementException ex)
                             {
                                 retryCount--;
                                 if (retryCount == 0)
                                 {
-                                    Console.WriteLine("Operation Failed...");
+                                    Console.WriteLine($"Operation Failed... {ex}");
                                 }
                             }
                         }
@@ -56,7 +56,7 @@ namespace ReadHTML
                     {
                         beer.AlcoholPercentage = "Nothing found";
                         beer.UntappedRating = 9;
-                        Console.WriteLine($"{beer.Name} rating NIET verwerkt");
+                        Console.WriteLine($"{beer.Name} rating NIET verwerkt, {ex}");
                     }
                 };
                 webDriver.Close();

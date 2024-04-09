@@ -10,9 +10,9 @@ namespace ReadHTML
     {
         private readonly Appsettings _options;
         private readonly IWebDriver _driver;
-        private readonly ILogger _logger;
+        private readonly ILogger<ProcessElings> _logger;
 
-        public ProcessElings(IOptions<Appsettings> options, IWebDriver webDriver, ILogger logger)
+        public ProcessElings(IOptions<Appsettings> options, IWebDriver webDriver, ILogger<ProcessElings> logger)
         {
             _options = options.Value;
             _driver = webDriver;

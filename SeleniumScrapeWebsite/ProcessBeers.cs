@@ -3,7 +3,7 @@ using ReadHTML.Interfaces;
 
 namespace ReadHTML
 {
-    public class ProcessBeers(IExportCSV exportCSV, IProcessElings processElings, IProcessUntappd processUntappd, ILogger logger) : IProcessBeers
+    public class ProcessBeers(IExportCSV exportCSV, IProcessElings processElings, IProcessUntappd processUntappd, ILogger<ProcessBeers> logger) : IProcessBeers
     {
         public void ProcessAllBeer()
         {

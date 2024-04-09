@@ -6,7 +6,7 @@ using ReadHTML.Interfaces;
 
 namespace ReadHTML
 {
-    public class ProcessUntappd(ILogger logger) : IProcessUntappd
+    public class ProcessUntappd(ILogger<ProcessUntappd> logger) : IProcessUntappd
     {
         public void GetUntappedRatingAsync(List<Beer> bieren)
         {

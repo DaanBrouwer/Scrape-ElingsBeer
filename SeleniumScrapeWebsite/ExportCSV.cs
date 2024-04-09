@@ -9,9 +9,9 @@ namespace ReadHTML
     public class ExportCSV : IExportCSV
     {
         private readonly Appsettings _options;
-        private readonly ILogger _logger;
+        private readonly ILogger<ExportCSV> _logger;
 
-        public ExportCSV(IOptions<Appsettings> options, ILogger logger)
+        public ExportCSV(IOptions<Appsettings> options, ILogger<ExportCSV> logger)
         {
             _options = options.Value;
             _logger = logger;

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
 using ReadHTML.Interfaces;
@@ -9,11 +10,13 @@ namespace ReadHTML
     {
         private readonly Appsettings _options;
         private readonly IWebDriver _driver;
+        private readonly ILogger _logger;
 
-        public ProcessElings(IOptions<Appsettings> options, IWebDriver webDriver)
+        public ProcessElings(IOptions<Appsettings> options, IWebDriver webDriver, ILogger logger)
         {
             _options = options.Value;
             _driver = webDriver;
+            _logger = logger;
         }
 
         public List<Beer> GetElingsBeers()
@@ -33,12 +36,12 @@ namespace ReadHTML
             int totalPages = Convert.ToInt32(totalPagesText.Text);
 
             List<Beer> bieren = new List<Beer>();
-            for (int i = 1; i <= 1; i++)
+            for (int i = 1; i <= totalPages; i++)
             {
                 _driver.Navigate().GoToUrl($"https://elingscraftbeer.shop/collections/alle-bieren?sort_by=created-descending&page={i}");
                 bieren.AddRange(GetAllBeersFromPage());
                 
-                Console.WriteLine($"Pagina {i} verwerkt");
+                _logger.LogInformation("Pagina {i} verwerkt", i);
             }
             _driver.Quit();
             return bieren;
@@ -94,7 +97,7 @@ namespace ReadHTML
 
                 AllBeersFromPage.Add(singleBeer);
 
-                Console.WriteLine($"{singleBeer.Name} verwerkt");
+                _logger.LogInformation("{BeerName} verwerkt", singleBeer.Name);
             }
             return AllBeersFromPage;
         }

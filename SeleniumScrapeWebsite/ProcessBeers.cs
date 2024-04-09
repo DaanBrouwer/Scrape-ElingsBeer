@@ -1,16 +1,16 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
 using ReadHTML.Interfaces;
 
 namespace ReadHTML
 {
-    public class ProcessBeers(IExportCSV exportCSV, IProcessElings processElings, IProcessUntappd processUntappd) : IProcessBeers
+    public class ProcessBeers(IExportCSV exportCSV, IProcessElings processElings, IProcessUntappd processUntappd, ILogger logger) : IProcessBeers
     {
         public void ProcessAllBeer()
         {
             var bieren = processElings.GetElingsBeers();
             processUntappd.GetUntappedRatingAsync(bieren);
             exportCSV.ConvertToCsv(bieren);
-            Console.WriteLine("All Beers Read!");
+            logger.LogInformation("All Beers Read!");
         }
     }
 }

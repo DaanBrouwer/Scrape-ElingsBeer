@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ReadHTML.Interfaces;
 
@@ -8,10 +9,12 @@ namespace ReadHTML
     public class ExportCSV : IExportCSV
     {
         private readonly Appsettings _options;
+        private readonly ILogger _logger;
 
-        public ExportCSV(IOptions<Appsettings> options)
+        public ExportCSV(IOptions<Appsettings> options, ILogger logger)
         {
             _options = options.Value;
+            _logger = logger;
         }
 
         public void ConvertToCsv<T>(IEnumerable<T> data)
@@ -38,7 +41,7 @@ namespace ReadHTML
                     var values = string.Join(";", properties.Select(p => p.GetValue(item)));
                     writer.WriteLine(values);
                 }
-                Console.WriteLine($"Exported csv to {_options.OutputPath}");
+                _logger.LogInformation("Exported csv to {OutputPath}", _options.OutputPath);
             }
         }
     }

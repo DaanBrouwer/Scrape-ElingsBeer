@@ -1,11 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.Extensions.Logging;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using ReadHTML.Interfaces;
 
 namespace ReadHTML
 {
-    public class ProcessUntappd : IProcessUntappd
+    public class ProcessUntappd(ILogger logger) : IProcessUntappd
     {
         public void GetUntappedRatingAsync(List<Beer> bieren)
         {
@@ -36,7 +37,7 @@ namespace ReadHTML
                                 retryCount--;
                                 if (retryCount == 0)
                                 {
-                                    Console.WriteLine($"Operation Failed... {ex}");
+                                    logger.LogError("Operation Failed... {ex}", ex);
                                 }
                             }
                         }
@@ -50,13 +51,13 @@ namespace ReadHTML
                         var convertPercentage = alcoholPercentage.Substring(0, alcoholPercentage.Length - 4).Replace(".", ",");
                         beer.AlcoholPercentage = convertPercentage == "N/A" ? "0,0%" : convertPercentage;
                         beer.UntappedRating = Math.Round(double.Parse(Rating.Replace(".", ",")), 2);
-                        Console.WriteLine($"{beer.Name} rating verwerkt");
+                        logger.LogInformation("{BeerName} rating verwerkt", beer.Name);
                     }
                     catch (Exception ex)
                     {
                         beer.AlcoholPercentage = "Nothing found";
                         beer.UntappedRating = 9;
-                        Console.WriteLine($"{beer.Name} rating NIET verwerkt, {ex}");
+                        logger.LogError("{beerName} rating NIET verwerkt, {ex}", beer.Name, ex);
                     }
                 };
                 webDriver.Close();
